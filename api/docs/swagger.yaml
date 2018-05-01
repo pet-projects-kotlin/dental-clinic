@@ -1,0 +1,647 @@
+openapi: 3.0.0
+servers: []
+info:
+  description: This is a simple API
+  version: "1.0.0"
+  title: Dental Clinic Management API
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /patients:
+    post:
+      tags:
+      - patients
+      summary: Create patient
+      requestBody:
+        description: Create a new Patient
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePatientRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /patients/{id}:
+    get:
+      tags:
+      - patients
+      summary: Get a patient by Id
+      description: Get current patient information
+      parameters:
+        - in: path
+          name: id
+          description: Patient unique identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      tags:
+      - patients
+      summary: Change Patient information
+      description: Change or overlap patient information
+      parameters:
+        - in: path
+          name: id
+          description: Patient unique identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Create a new Patient
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePatientRequest'
+      responses:
+        '204':
+          description: No content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      
+    delete:
+      tags:
+      - patients
+      summary: Delete Patient by Id
+      description: Make Patient disappear like magic! puff
+      parameters:
+        - in: path
+          name: id
+          description: Patient unique identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /appointments:
+    post:
+      tags:
+      - appointments (WIP)
+      responses:
+        '201':
+          description: Created
+    
+  /appointments/{id}:
+    get:
+      tags:
+      - appointments (WIP)
+      parameters:
+        - in: path
+          name: id
+          description: Appointment unique identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Ok
+          
+    delete:
+      tags:
+      - appointments (WIP)
+      parameters:
+        - in: path
+          name: id
+          description: Appointment unique identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Ok
+          
+  /healthcare-systems:
+     post:
+      tags:
+      - healthcare-systems (WIP)
+      requestBody:
+        description: Create a new Healthcare System
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateHealthcareSystemRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+                
+  /healthcare-systems/{id}:
+    get:
+      tags:
+      - healthcare-systems (WIP)
+      parameters:
+      - in: path
+        name: id
+        description: Healthcare System unique identifier
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthcareSystem'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+                
+    delete:
+      tags:
+      - healthcare-systems (WIP)
+      parameters:
+        - in: path
+          name: id
+          description: Healthcare System unique identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request. This resource can not be deleted in its current state.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /services:
+    get:
+      tags:
+      - services (WIP)
+      summary: Get services
+      description: Get current services available
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Service'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      tags:
+      - services (WIP)
+      summary: Create new Service
+      description: Create new Service
+      requestBody:
+        description: Create a new Service
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateServiceRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+                
+  /services/{id}:
+    get:
+      tags:
+      - services (WIP)
+      summary: Display Service information
+      description: Display Service information
+      parameters:
+        - in: path
+          name: id
+          description: service unique identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      tags:
+      - services (WIP)
+      summary: Change service information
+      description: Change or overlap service information
+      parameters:
+        - in: path
+          name: id
+          description: Service unique identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Change or overlap an existing Service
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateServiceRequest'
+      responses:
+        '204':
+          description: No content
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          
+    delete:
+      tags:
+      - services (WIP)
+      summary: Delete service information
+      description: Delete service information
+      parameters:
+        - in: path
+          name: id
+          description: Service unique identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Ok          
+          
+          
+components:
+  schemas:
+    UpdatePatientRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: patient one
+        telephone:
+          type: integer
+          format: int64
+          example: 987654321
+        age:
+          type: integer
+          format: int16
+          example: 16
+        fiscalNumber:
+          type: string
+          example: fn76879776
+        healthcareSystem:
+          type: string
+          example: TBD
+      
+    CreatePatientRequest:
+      type: object
+      required:
+        - name
+        - telephone
+        - age
+        - gender
+        - fiscalNumber
+        - healthcareSystem
+      properties:
+        name:
+          type: string
+          example: patient one
+        telephone:
+          type: integer
+          format: int64
+          example: 987654321
+        age:
+          type: integer
+          format: int16
+          example: 16
+        fiscalNumber:
+          type: string
+          example: fn76879776
+        healthcareSystem:
+          type: string
+          example: TBD
+          
+    CreateResponse:
+      type: object
+      required:
+        - location
+      properties:
+        location:
+          type: string
+          example: http://api.net/resources/id
+          
+    Patient:
+      type: object
+      required:
+        - id
+        - name
+        - telephone
+        - age
+        - gender
+        - fiscalNumber
+        - healthcareSystem
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: sakdjlaskjd-asjkdjalskjd-adads
+        name:
+          type: string
+          example: patient one
+        telephone:
+          type: integer
+          format: int64
+          example: 987654321
+        age:
+          type: integer
+          format: int16
+          example: 16
+        fiscalNumber:
+          type: string
+          example: fn76879776
+        healthcareSystem:
+          type: string
+          example: TBD
+    
+    CreateHealthcareSystemRequest:    
+      type: object
+      required:
+        - discount
+        - description
+      properties:
+        description:
+          type: string
+          example: this is a description
+        discount:
+          type: number
+          format: double
+          example: 0.3
+          
+    HealthcareSystem:    
+      type: object
+      required:
+        - id
+        - discount
+        - description
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: sakdjlaskjd-asjkdjalskjd-adads
+        description:
+          type: string
+          example: this is a description
+        discount:
+          type: number
+          format: double
+          example: 0.3
+          
+    Service:
+      type: object
+      required:
+        - code
+        - cost
+        - description
+        - healthcare-system
+      properties:
+        code:
+          type: string
+          format: uuid
+          example: sakdjlaskjd-asjkdjalskjd-adads
+        cost:
+          type: number
+          format: double
+          example: 32.00
+        description:
+          type: string
+          example: this is a description
+        healthcareSystemId:
+          type: string
+          format: uuid
+          example: sakdjlaskjd-asjkdjalskjd-adads
+    
+    CreateServiceRequest:
+      type: object
+      required:
+        - cost
+        - description
+        - healthcare-system
+      properties:
+        cost:
+          type: number
+          format: double
+          example: 32.00
+        description:
+          type: string
+          example: this is a description
+        healthcareSystemId:
+          type: string
+          format: uuid
+          example: sakdjlaskjd-asjkdjalskjd-adads
+    
+    UpdateServiceRequest:
+      type: object
+      required:
+        - cost
+        - description
+        - healthcare-system
+      properties:
+        cost:
+          type: number
+          format: double
+          example: 32.00
+        description:
+          type: string
+          example: this is a description
+        healthcareSystemId:
+          type: string
+          format: uuid
+          example: sakdjlaskjd-asjkdjalskjd-adads
+    
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+            
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 10000
+        message:
+          type: string
+          example: 'custom message'
